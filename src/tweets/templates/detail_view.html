@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}{{ block.super }} | See it{% endblock title %}
+
+{#{% block content %} {{ object.user }}<br/>{{ object.tweet }}<br/>{{ object.created }}<br/> {% endblock  %}#}
+{% block content %}
+    <div class=" 'row">
+        <div class="col-xs-3" style="background-color:#9367e6"><h1>{{ object.user }}</h1></div>
+        <div class="col-xs-9">{{ object.tweet }}<br/>created at:{{ object.created  }}<br/>
+
+        </div>
+
+    </div>
+{% endblock  %}

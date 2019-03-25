@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+        <div clas="row">
+           {% if not request.GET.q %}
+                {% include "form.html" with form=create_form action_url=create_url btn_title='Tweet iT'%}
+
+              {% endif %}
+        </div>
+    <hr/>
+        <div class="row">
+        <div class="col-sm-9 col-sm-offser-2">
+
+            {%  for obj in object_list %}
+
+            <div class="media">
+                <div class="media-left">
+            </div>
+            <div class="media-body">
+                    {{ obj.tweet }}<br/>  by  {{ obj.user }} <br/> at  {{ obj.created }}
+                <a href= '{{ obj.get_absolute_url }}'> view</a><br/>
+
+          </div>
+                   <hr/>
+    </div>
+
+
+    {% empty %}
+        {% if request.GET.q %}
+            <p>No Tweets macing the query</p>
+        {% endif %}
+    {% endfor %}
+
+
+        </div>
+
+        </div>
+
+{% endblock content %}
