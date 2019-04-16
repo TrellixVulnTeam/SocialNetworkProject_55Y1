@@ -1,14 +1,23 @@
-from django.conf import settings
 from django.conf.urls import url
-from .views import DetailViewT, ListViewT, CreateViewT, UpdateViewT, DeleteViewT
-from django.views.generic import RedirectView
+
+from django.views.generic.base import RedirectView
+
+from .views import (
+    View,
+    TweetCreateView,
+    TweetDeleteView,
+    TweetDetailView,
+    TweetListView,
+    TweetUpdateView
+    )
 
 urlpatterns = [
-    url(r'^(?P<pk>\d+)/delete/$', DeleteViewT.as_view(), name='delete'),
-    url(r'^(?P<pk>\d*)/$', DetailViewT.as_view(),name='detail'),
-    url(r'^(?P<pk>\d*)/update/$', UpdateViewT.as_view(), name='update'),
-    url(r'^search/', ListViewT.as_view(), name='list'),
-    url(r'^create/$', CreateViewT.as_view(), name='create'),
-    url(r'^$', RedirectView.as_view(url="/")),
+    url(r'^$', RedirectView.as_view(url="/")), 
+    url(r'^search/$', TweetListView.as_view(), name='list'), # /tweet/
+    url(r'^create/$', TweetCreateView.as_view(), name='create'), # /tweet/create/
+    url(r'^(?P<pk>\d+)/$', TweetDetailView.as_view(), name='detail'), # /tweet/1/
+    # url(r'^(?P<pk>\d+)//$', View.as_view(), name='detail'), # /tweet/1/
+    url(r'^(?P<pk>\d+)/update/$', TweetUpdateView.as_view(), name='update'), # /tweet/1/update/
+    url(r'^(?P<pk>\d+)/delete/$', TweetDeleteView.as_view(), name='delete'), # /tweet/1/delete/
 ]
 

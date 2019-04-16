@@ -20,4 +20,3 @@ def validate_blank_content(val):
     if val != "":
         return val
     raise ValidationError("You can't post a blank  tweet")
-

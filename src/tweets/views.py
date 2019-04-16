@@ -1,53 +1,78 @@
-from django.views.generic.detail import DetailView
-from django.views.generic.list import ListView
-from django.db.models import  Q
-from django.views.generic.edit import CreateView, UpdateView , DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
-from .models import Tweet
+from django.views import View
+from django.views.generic import (
+                CreateView,
+                DetailView,
+                DeleteView, 
+                ListView, 
+                UpdateView
+                )
+
 from .forms import TweetModelForm
-from .mixin import FormUserMixin, AllowedUserMixin
+from .mixins import FormUserNeededMixin, UserOwnerMixin
+from .models import Tweet
+#
+# class View(View):
+#     def get(self, request, pk, *args, **kwargs):
+#         tweet = get_object_or_404(Tweet, pk=pk)
+#         if request.user.is_authenticated():
+#             new_tweet = Tweet.objects.(request.user, tweet)
+#             return HttpResponseRedirect("/")
+#         return HttpResponseRedirect(tweet.get_absolute_url())
 
 
-class DetailViewT(DetailView):
-    template_name = 'detail_view.html'
+class TweetCreateView(FormUserNeededMixin, CreateView):
+    form_class = TweetModelForm
+    template_name = 'tweets/create_view.html'
+    #success_url = reverse_lazy("tweet:detail")
+
+
+class TweetUpdateView(LoginRequiredMixin, UserOwnerMixin, UpdateView):
+    queryset = Tweet.objects.all()
+    form_class = TweetModelForm
+    template_name = 'tweets/update_view.html'
+    #success_url = "/tweet/"
+
+
+class TweetDeleteView(LoginRequiredMixin, DeleteView):
+    model = Tweet
+    template_name = 'tweets/delete_confirm.html'
+    success_url = reverse_lazy("tweet:list") #reverse()
+
+
+
+class TweetDetailView(DetailView):
     queryset = Tweet.objects.all()
 
 
-class ListViewT(ListView):
-    template_name = 'list_view.html'
-
-    def get_queryset(self):
+class TweetListView(LoginRequiredMixin, ListView):
+    
+    def get_queryset(self, *args, **kwargs):
+        qs = Tweet.objects.all()
         query = self.request.GET.get("q", None)
-        return Tweet.objects.all() if not query else Tweet.objects.all().filter(
-            Q(tweet__icontains=query) |
-            Q(user__username__icontains=query)|
-            Q(user__username__startswith=query) |
-            Q(created__icontains=query)|
-            Q(tweet__startswith=query)
+        if query is not None:
+            qs = qs.filter(
+                    Q(content__icontains=query) |
+                    Q(user__username__icontains=query)
+                    )
+        return qs
 
-        )
-    def get_context_data(self, *args, **kwargs ):
-        context = super(ListViewT, self).get_context_data(*args,**kwargs)
+    def get_context_data(self, *args, **kwargs):
+        context = super(TweetListView, self).get_context_data(*args, **kwargs)
         context['create_form'] = TweetModelForm()
-        context['create_url'] = reverse_lazy('tweet:create')
-
+        context['create_url'] = reverse_lazy("tweet:create")
         return context
 
-class CreateViewT(FormUserMixin, CreateView, LoginRequiredMixin):
-        form_class = TweetModelForm
-        template_name = 'create_view.html'
 
-
-class UpdateViewT(AllowedUserMixin, UpdateView, LoginRequiredMixin):
-        queryset = Tweet.objects.all()
-        template_name = 'update_view.html'
-        form_class = TweetModelForm
-        # success_url = "/tweet/"
-
-class DeleteViewT (LoginRequiredMixin, DeleteView):
-    model = Tweet
-    template_name = 'delete_view.html'
-    success_url = reverse_lazy("tweet:list")
-    login_url = '/admin/'
-
+def tweet_detail_view(request, pk=None): # pk == id
+    #obj = Tweet.objects.get(pk=pk) # GET from database
+    obj = get_object_or_404(Tweet, pk=pk)
+    print(obj)
+    context = {
+        "object": obj
+    }
+    return render(request, "tweets/detail_view.html", context)
