@@ -19,10 +19,10 @@ class TweetModelTestCase(TestCase):
                 user= User.objects.first(),
                 content='test'
             )
-        self.assertEqual(obj.content, "test")
-        self.assertEqual(obj.id, 1)
+        self.assertTrue(obj.content == "test")
+        self.assertTrue(obj.id == 1)
         absolute_url = reverse("tweet:detail", kwargs={"pk": 1})
-        self.assertEqual(obj.get_absolute_url(), absolute_url)
+        self.assertTrue(obj.get_absolute_url() == absolute_url)
 
     def test_tweet_url(self):
         obj = Tweet.objects.create(
@@ -30,4 +30,4 @@ class TweetModelTestCase(TestCase):
                 content='test'
             )
         absolute_url = reverse("tweet:detail", kwargs={"pk": obj.pk})
-        self.assertEqual(obj.get_absolute_url(), absolute_url)
+        self.assertTrue(obj.get_absolute_url() == absolute_url)
