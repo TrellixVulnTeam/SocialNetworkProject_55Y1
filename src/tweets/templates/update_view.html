@@ -1,9 +1,0 @@
-{#<form class='form' action="" method="post">{% csrf_token %}#}
-{#    {{ form.as_p }}#}
-{#    <input type="submit" value="Update " />#}
-{#</form>#}
-{% extends "base.html" %}
-{% block content %}
-
-    {% include "form.html" with form=form btn_val='Update it!!'%}
-{% endblock %}

@@ -14,17 +14,17 @@ class UserRegisterForm(forms.Form):
         password = self.cleaned_data.get('password')
         password2 = self.cleaned_data.get('password2')
         if password != password2:
-            raise forms.ValidationError("Password must match")
+            raise forms.ValidationError("Passwords do not mutch")
         return password2
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
         if User.objects.filter(username__icontains=username).exists():
-            raise forms.ValidationError("This username is taken")
+            raise forms.ValidationError("This username is alresy exists")
         return username
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
         if User.objects.filter(email__icontains=email).exists():
-            raise forms.ValidationError("This email is already registered.")
+            raise forms.ValidationError("This email is already exists.")
         return email

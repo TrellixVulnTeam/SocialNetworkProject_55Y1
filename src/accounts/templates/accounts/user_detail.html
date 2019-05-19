@@ -31,7 +31,7 @@ $(document).ready(function(){
              {% endfor %}
 
           <hr/>
-          <h1>Followed: </h1>
+          <h1>Followed By</h1>
              {% for profile in object.followed_by.all %}
              <a href='/{{ profile.user.username }}'>{{ profile.user.username }}</a><br/>
              {% empty %}

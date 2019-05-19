@@ -9,7 +9,8 @@ class TweetModelForm(forms.ModelForm):
                         attrs={'placeholder': "Your message", 
                             "class": "form-control"}
                     ))
+
     class Meta:
         model = Tweet
-        exclude = ['user', 'parent','reply','liked' ]
+        exclude = ['parent','user','liked','reply','updated','timestamp']
 

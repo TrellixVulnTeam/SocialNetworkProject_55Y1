@@ -15,34 +15,31 @@ from django.views.generic import (
 from .forms import TweetModelForm
 from .mixins import FormUserNeededMixin, UserOwnerMixin
 from .models import Tweet
-#
-# class View(View):
-#     def get(self, request, pk, *args, **kwargs):
-#         tweet = get_object_or_404(Tweet, pk=pk)
-#         if request.user.is_authenticated():
-#             new_tweet = Tweet.objects.(request.user, tweet)
-#             return HttpResponseRedirect("/")
-#         return HttpResponseRedirect(tweet.get_absolute_url())
+
+class RetweetView(View):
+    def get(self, request, pk, *args, **kwargs):
+        tweet = get_object_or_404(Tweet, pk=pk)
+        if request.user.is_authenticated():
+            Tweet.objects.retweet(request.user, tweet)
+            return HttpResponseRedirect("/")
+        return HttpResponseRedirect(tweet.get_absolute_url())
 
 
 class TweetCreateView(FormUserNeededMixin, CreateView):
     form_class = TweetModelForm
     template_name = 'tweets/create_view.html'
-    #success_url = reverse_lazy("tweet:detail")
 
 
 class TweetUpdateView(LoginRequiredMixin, UserOwnerMixin, UpdateView):
     queryset = Tweet.objects.all()
     form_class = TweetModelForm
     template_name = 'tweets/update_view.html'
-    #success_url = "/tweet/"
 
 
 class TweetDeleteView(LoginRequiredMixin, DeleteView):
     model = Tweet
     template_name = 'tweets/delete_confirm.html'
-    success_url = reverse_lazy("tweet:list") #reverse()
-
+    success_url = reverse_lazy("tweet:list")
 
 
 class TweetDetailView(DetailView):
@@ -68,8 +65,7 @@ class TweetListView(LoginRequiredMixin, ListView):
         return context
 
 
-def tweet_detail_view(request, pk=None): # pk == id
-    #obj = Tweet.objects.get(pk=pk) # GET from database
+def tweet_detail_view(request, pk=None):
     obj = get_object_or_404(Tweet, pk=pk)
     print(obj)
     context = {
