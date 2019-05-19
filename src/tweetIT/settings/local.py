@@ -57,6 +57,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+JENKINS_TASKS = (
+    'django_jenkins.tasks.run_pep8',
+    'django_jenkins.tasks.run_pylint',
+)
+
+
 ROOT_URLCONF = 'tweetIT.urls'
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/"
