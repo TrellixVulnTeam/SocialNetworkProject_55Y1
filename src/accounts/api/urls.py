@@ -1,5 +1,5 @@
 from django.conf.urls import url
-
+גגגג
 from django.views.generic.base import RedirectView
 
 from tweets.api.views import (
