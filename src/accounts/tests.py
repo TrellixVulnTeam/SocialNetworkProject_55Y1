@@ -61,4 +61,23 @@ class Form_Test(TestCase):
 
 
 
+    def test_register_invalid_not_valid_email(self):        
+        form = UserRegisterForm(data={'username': "test1", 'email': "m", 'password': "12345678a", 'password2': "12345678a"})
+        self.assertFalse(form.is_valid())
+
+
+
+
+    def test_register_invalid_not_same_pass(self):        
+        form = UserRegisterForm(data={'username': "test1", 'email': "m@gmail.com", 'password': "123", 'password2': "12345678a"})
+        self.assertFalse(form.is_valid())
+
+
+
+    def test_register_invalid_pass(self):        
+        form = UserRegisterForm(data={'username': "test1", 'email': "m@gmail.com", 'password': "123", 'password2': "123"})
+        self.assertFalse(form.is_valid())
+
+
+
 
