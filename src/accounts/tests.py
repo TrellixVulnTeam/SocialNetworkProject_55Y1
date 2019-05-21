@@ -19,6 +19,20 @@ class UserProfileTestCase(TestCase):
         self.assertTrue(user_profile.count()== 1)
  
 
+class TestUser(TestCase):
+
+    def test_login(self):
+        response = self.client.post("/login", {"username": "lior", "password": "12345678a"})
+        print(response.status_code)
+        self.assertTrue(response.status_code == 301)
+        self.assertTrue(self.client.get('/login').status_code == 301)             
+
+    def test_logout(self):
+        self.client = Client()
+        self.client.login(username='lior', password='12345678a')
+        self.assertTrue(self.client.get('/logout/').status_code== 302)
+
+
 
 
 
