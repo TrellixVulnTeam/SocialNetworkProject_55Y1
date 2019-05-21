@@ -33,7 +33,9 @@ class TestUser(TestCase):
         self.assertTrue(self.client.get('/logout/').status_code== 302)
 
 
-
-
-
+class Form_Test(TestCase):
+    def test_register_valid(self):                
+        form = UserRegisterForm(data={'username': "test1", 'email': "bl2@gmail.com", 'password': "12345678a",
+                                      'password2': "12345678a"})
+        self.assertTrue(form.is_valid())
 
