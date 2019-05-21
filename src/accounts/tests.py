@@ -75,7 +75,7 @@ class Form_Test(TestCase):
 
 
     def test_register_invalid_pass(self):        
-        form = UserRegisterForm(data={'username': "test1", 'email': "m@gmail.com", 'password': "123", 'password2': "123"})
+        form = UserRegisterForm(data={'username': "test1", 'email': "m@gmail.com", 'password': "12", 'password2': "123"})
         self.assertFalse(form.is_valid())
 
 

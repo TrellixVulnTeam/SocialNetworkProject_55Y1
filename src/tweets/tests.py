@@ -32,6 +32,9 @@ class TweetModelTestCase(TestCase):
         absolute_url = reverse("tweet:detail", kwargs={"pk": 1})
         self.assertTrue(obj.get_absolute_url() == absolute_url)
 
+
+
+
     def test_tweet_url(self):
         obj = Tweet.objects.create(
                 user= User.objects.first(),
