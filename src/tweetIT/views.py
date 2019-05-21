@@ -6,8 +6,6 @@ from django.views import View
 def home(request):
     return render(request, "home.html", {})
 
-
-
 User = get_user_model()
 
 class SearchView(View):
