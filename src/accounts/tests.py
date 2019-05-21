@@ -49,3 +49,16 @@ class Form_Test(TestCase):
         form = UserRegisterForm(data={'username': "", 'email': "mp@gmail.com", 'password': "12345678a", 'password2': "12345678a"})
         self.assertFalse(form.is_valid())
 
+
+    def test_register_invalid_no_pass1(self):        
+        form = UserRegisterForm(data={'username': "test1", 'email': "mp@gmail.com", 'password': "", 'password2': "12345678a"})
+        self.assertFalse(form.is_valid())
+
+
+    def test_register_invalid_no_email(self):        
+        form = UserRegisterForm(data={'username': "test1", 'email': "", 'password': "12345678a", 'password2': "12345678a"})
+        self.assertFalse(form.is_valid())
+
+
+
+
