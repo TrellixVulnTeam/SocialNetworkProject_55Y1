@@ -39,3 +39,8 @@ class Form_Test(TestCase):
                                       'password2': "12345678a"})
         self.assertTrue(form.is_valid())
 
+    def test_register_invalid_no_pass2(self):        
+        form = UserRegisterForm(data={'username': "lior", 'email': "mp@gmail.com", 'password': "12345678a", 'password2': ""})
+        self.assertFalse(form.is_valid())
+
+
