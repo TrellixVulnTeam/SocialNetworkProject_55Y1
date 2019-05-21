@@ -1,4 +1,3 @@
-
 from django.contrib.auth import get_user_model
 from django.urls import reverse_lazy
 
@@ -26,4 +25,3 @@ class UserDisplaySerializer(serializers.ModelSerializer):
 
     def get_url(self, obj):
         return reverse_lazy("profiles:detail", kwargs={"username": obj.username })
-
