@@ -20,9 +20,6 @@ class HashTag(models.Model):
     def get_tweets(self):
         return Tweet.objects.filter(content__icontains="#" + self.tag)
 
-
-
-
 def parsed_hashtags_receiver(sender, hashtag_list, *args, **kwargs):
     if len(hashtag_list) > 0:
         for tag_var in hashtag_list:
