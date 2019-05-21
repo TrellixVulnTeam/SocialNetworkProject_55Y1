@@ -38,8 +38,8 @@ class UserProfileManager(models.Manager):
     def recommended(self, user, limit_to=10):
         print(user)
         profile = user.profile 
-        following = profile.following.all()
-        following = profile.get_following()
+        following = profile.following.all()#get all followings
+        following = profile.get_following()#get followings
         qs = self.get_queryset().exclude(user__in=following).exclude(id=profile.id).order_by("?")[:limit_to]
         return qs
 
